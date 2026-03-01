@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pasar Dusun</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo" onclick="kembaliKeHome()">
+        <img src="logo (2).png" alt="Logo" />
+        <span>Pasar Dusun</span>
+      </div>
+
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="#" onclick="kembaliKeHome()">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="admin.html">Admin</a></li>
+      </ul>
+
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+    </nav>
+
+    <main id="home">
+      <div id="area-beranda">
+        <div class="hero-section">
+          <h1>Pasar Dusun.</h1>
+          <p>Jelajahi keasrian dan potensi lokal dusun kami secara langsung.</p>
+        </div>
+
+        <div class="kategori-showcase">
+          <div class="kartu-kategori" onclick="pilihKategori('Peternakan')">
+            <h2>🐮 Peternakan</h2>
+            <p>Eksplorasi hewan ternak berkualitas</p>
+          </div>
+          <div class="kartu-kategori" onclick="pilihKategori('Perikanan')">
+            <h2>🐟 Perikanan</h2>
+            <p>Hasil tangkapan dan budidaya segar</p>
+          </div>
+          <div class="kartu-kategori" onclick="pilihKategori('Pertanian')">
+            <h2>🌾 Pertanian</h2>
+            <p>Hasil bumi langsung dari petani</p>
+          </div>
+          <div class="kartu-kategori" onclick="pilihKategori('Budaya')">
+            <h2>🎭 Budaya</h2>
+            <p>Kerajinan dan karya seni lokal</p>
+          </div>
+        </div>
+      </div>
+
+      <section id="about" class="about-section">
+        <div class="about-container">
+          <div class="about-content">
+            <span class="subtitle">Tentang Kami</span>
+            <h2>Desa Wulla: Membangun Latti</h2>
+            <p>
+              Terletak di jantung keasrian alam, **Desa Wulla** berkomitmen
+              untuk menghidupkan kembali semangat lokal melalui program
+              **Membangun Latti**. Kami percaya bahwa potensi tanah dan padang
+              rumput kami adalah kunci kesejahteraan warga.
+            </p>
+            <p>
+              Melalui platform **Pasar Dusun**, kami memangkas rantai distribusi
+              agar Anda bisa mendapatkan hasil peternakan, pertanian, dan
+              kerajinan tangan langsung dari tangan pertama. Setiap transaksi
+              yang Anda lakukan membantu memperkuat ekonomi mandiri di dusun
+              kami.
+            </p>
+            <div class="about-features">
+              <div class="feature-item">
+                <span class="icon">🐮</span>
+                <p>Peternakan</p>
+              </div>
+              <div class="feature-item">
+                <span class="icon">🐟</span>
+                <p>Perikanan</p>
+              </div>
+              <div class="feature-item">
+                <span class="icon">🌾</span>
+                <p>Pertanian</p>
+              </div>
+              <div class="feature-item">
+                <span class="icon">🎭</span>
+                <p>Budaya</p>
+              </div>
+            </div>
+          </div>
+          <div class="about-image">
+            <img
+              src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80"
+              alt="Pemandangan Desa Wulla"
+            />
+          </div>
+        </div>
+      </section>
+
+      <div id="area-produk" style="display: none">
+        <div class="header-produk">
+          <h2 id="judul-kategori">Daftar Produk</h2>
+          <button onclick="kembaliKeHome()" class="btn-kembali">
+            ← Kembali
+          </button>
+        </div>
+        <div id="penjualan" class="grid-produk">
+          <p style="text-align: center; width: 100%">Memuat data server...</p>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

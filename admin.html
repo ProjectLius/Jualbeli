@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Pasar Dusun</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Desain Minimalis Khusus Admin */
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #fafafa;
+        color: #1a3626;
+        padding: 20px;
+      }
+      .container {
+        max-width: 500px;
+        margin: 20px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 25px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.95rem;
+      }
+      input[type="file"] {
+        padding: 8px;
+        border: none;
+        background: #eef2f0;
+      }
+      button {
+        width: 100%;
+        padding: 14px;
+        background-color: #1a3626;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+      }
+      button:hover {
+        opacity: 0.8;
+        transform: translateY(-2px);
+      }
+      #loading {
+        display: none;
+        text-align: center;
+        margin-top: 15px;
+        font-weight: bold;
+        color: #d35400;
+        animation: pulse 1s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.6;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Upload Produk 🚀</h2>
+      <form id="formAdmin">
+        <div class="form-group">
+          <label>Kategori</label>
+          <select id="kategori" required>
+            <option value="Peternakan">Peternakan</option>
+            <option value="Perikanan">Perikanan</option>
+            <option value="Pertanian">Pertanian</option>
+            <option value="Budaya">Budaya</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nama Produk</label>
+          <input
+            type="text"
+            id="nama"
+            placeholder="Contoh: Sapi Bali Super"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Harga (Hanya Angka)</label>
+          <input
+            type="number"
+            id="harga"
+            placeholder="Contoh: 15000000"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Deskripsi Produk</label>
+          <textarea
+            id="deskripsi"
+            rows="3"
+            placeholder="Tuliskan spesifikasi produk..."
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label>Nomor WA Penjual (Awali dengan 62)</label>
+          <input
+            type="number"
+            id="nowa"
+            placeholder="Contoh: 628123456789"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Upload Foto Asli (Maks 3MB)</label>
+          <input type="file" id="gambar" accept="image/*" required />
+        </div>
+
+        <button type="submit" id="btnSubmit">Upload ke Website</button>
+        <div id="loading">
+          ⏳ Sedang mengupload ke Server... Mohon tunggu jangan ditutup!
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // URL API Google Script kamu sudah dimasukkan di sini
+      const URL_API =
+        "https://script.google.com/macros/s/AKfycbzOFuoNDhGlgCUWVyka1lPg1uj0QDE81hq6QPGBjExsA-AcJ47WUlyEPzpBNIzLaaUC2Q/exec";
+
+      document
+        .getElementById("formAdmin")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // Mencegah halaman refresh
+
+          const fileInput = document.getElementById("gambar");
+          const file = fileInput.files[0];
+
+          if (!file) {
+            alert("Pilih foto dulu bro!");
+            return;
+          }
+
+          // Memunculkan tulisan loading & menyembunyikan tombol
+          document.getElementById("btnSubmit").style.display = "none";
+          document.getElementById("loading").style.display = "block";
+
+          // Proses membaca gambar menjadi kode rahasia Base64
+          const reader = new FileReader();
+          reader.onload = function () {
+            const base64String = reader.result;
+
+            // Menyusun paket data untuk dikirim ke Google Sheet
+            const payload = {
+              kategori: document.getElementById("kategori").value,
+              nama: document.getElementById("nama").value,
+              harga: document.getElementById("harga").value,
+              deskripsi: document.getElementById("deskripsi").value,
+              nowa: document.getElementById("nowa").value,
+              namaFile: file.name,
+              mimeType: file.type,
+              base64: base64String,
+            };
+
+            // Mengirim data ke URL API kamu
+            fetch(URL_API, {
+              method: "POST",
+              body: JSON.stringify(payload),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.status === "sukses") {
+                  alert(
+                    "Mantap! Gambar dan Data berhasil masuk ke Google Sheet & Website.",
+                  );
+                  document.getElementById("formAdmin").reset(); // Kosongkan form
+                } else {
+                  alert("Gagal: " + data.error);
+                }
+              })
+              .catch((error) => {
+                alert("Terjadi kesalahan jaringan.");
+                console.error(error);
+              })
+              .finally(() => {
+                // Mengembalikan tombol dan menghilangkan loading
+                document.getElementById("btnSubmit").style.display = "block";
+                document.getElementById("loading").style.display = "none";
+              });
+          };
+
+          reader.readAsDataURL(file); // Eksekusi pembacaan file
+        });
+    </script>
+  </body>
+</html>
